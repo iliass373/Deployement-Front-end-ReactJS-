@@ -13,6 +13,5 @@ job('ReactJS') {
     }
     steps {
         shell("npm install")
-        shell("npm start")
     }
 }
