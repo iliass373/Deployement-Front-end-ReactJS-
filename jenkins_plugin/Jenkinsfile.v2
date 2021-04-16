@@ -6,11 +6,12 @@ node {
         commit_id = readFile(".git/commit-id").trim()
     }
     stage('test with Docker container'){
-        def myDockerContainerTest = docker.image('node:4.8')
+        def myDockerContainerTest = docker.image('node')
         myDockerContainerTest.pull()
         myDockerContainerTest.inside{
             sh 'npm install'
             sh 'npm test'
         }
+        myDockerContainerTest.stop()
     }
 }
