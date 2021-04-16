@@ -1,0 +1,16 @@
+node {
+    def commit_id
+    stage('Preparation') {
+        checkout scm  // this command will git clone the repository 
+        sh "git rev-parse --short HEAD > .git/commit-id"
+        commit_id = readfile(".git/commit-id").trim()
+    }
+    stage('test with Docker container'){
+        def myDockerContainerTest = docker.image('node:4.8')
+        myDockerContainerTest.pull()
+        myDockerContainerTest.inside{
+            sh 'npm install'
+            sh 'npm test'
+        }
+    }
+}
