@@ -9,6 +9,13 @@ node {
         nodejs(nodeJSInstallationName: 'nodejs'){
             sh 'npm install --only=dev'
             sh 'npm test'
+            if (currentBuild.result == "FAILURE") {
+                def body_mail = '${JELLY_SCRIPT, template="html"}'
+                emailtext(body: body_mail, to= emailextrecipients([
+                    [$class: 'ilyasbendidia6@gmail.com'],
+                    [$class: 'iliass_bendidia@um5.ac.ma']
+                ]))
+            }
         }
     }
 }
